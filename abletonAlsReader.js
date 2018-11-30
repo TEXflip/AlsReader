@@ -3,7 +3,7 @@ const xml2js = require('xml2js');
 const cmd = require('node-cmd');
 const ratio = 0.001999999841569535020321384257825129452549863988069544668958641201035281850236222338457267539783701251106630;
 
-let parser = new xml2js.Parser(), file = process.argv[2], newFile, encoding = process.platform === "win32" ? "utf-16le" : "utf8";
+let parser = new xml2js.Parser(), file = process.argv[2], newFile, encoding = process.platform === "win32" ? "utf-16le" : "utf8", retry = true;
 if (file.substring(file.length - 4) == ".xml")
     fs.readFile("./" + file, encoding, readFile);
 else if (file.substring(file.length - 4) == ".als") {
@@ -12,8 +12,7 @@ else if (file.substring(file.length - 4) == ".als") {
     cmd.get(
         "gzip -cd " + file + " > " + newFile.replace(/ /g, '\\ '),
         (err, data, stderr) => {
-            console.log(data);
-            console.log(err);
+            file = newFile;
             fs.readFile("./" + newFile, encoding, readFile);
         }
     );
@@ -48,11 +47,29 @@ function readFile(err, data) {
                 let print = [print1, print2];
                 printForTables(print);
             }
-            else
-                console.error("result = "+result);
+            else {
+                if (result == undefined) {
+                    console.error("encoding error. retrying...");
+                    reTry();
+                }
+                else
+                    console.error("bad error");
+            }
         });
     else
-        console.error("file not found");
+        if (!reTry())
+            console.error("file not found");
+}
+
+function reTry(canAgain = false) {
+    if (retry) {
+        encoding = encoding === "utf8" ? "utf-16le" : "utf8";
+        fs.readFile("./" + file, encoding, readFile);
+        if (canAgain)
+            retry = false;
+        return true;
+    }
+    return false;
 }
 
 function msToTime(duration) {
