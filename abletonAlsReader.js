@@ -73,7 +73,7 @@ function reTry(canAgain = false) {
 }
 
 function msToTime(duration) {
-    var milliseconds = parseInt((duration % 1000))
+    var ms = parseInt((duration % 1000))
         , seconds = parseInt((duration / 1000) % 60)
         , minutes = parseInt((duration / (1000 * 60)) % 60)
         , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
@@ -82,15 +82,18 @@ function msToTime(duration) {
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-    return minutes + ":" + seconds + "." + milliseconds;
+    return minutes + ":" + seconds + "." + (ms == 0 ? "000" : ms);
 }
 
 function printForTables(args) {
-    args[0].forEach(e => {
+    for (const i in args[0]) {
+        process.stdout.write(args[0][i]+"\t"+args[1][i]+"\n");
+    }
+    /*args[0].forEach(e => {
         process.stdout.write(e + '\n');
     });
     process.stdout.write('\n');
     args[1].forEach(e => {
         process.stdout.write(e + '\n');
-    });
+    });*/
 }
