@@ -59,3 +59,7 @@ typings/
 
 # next.js build output
 .next
+
+# ableton and xml files for testing
+.als
+.xml
