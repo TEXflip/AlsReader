@@ -61,5 +61,6 @@ typings/
 .next
 
 # ableton and xml files for testing
-.als
-.xml
+*.als
+*.xml
+!example.xml
