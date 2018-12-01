@@ -89,15 +89,8 @@ function msToTime(duration) {
 }
 
 function printForTables(args, startDifference) {
-    process.stdout.write("start delay: " + startDifference + " ms\n");
-    for (const i in args[0]) {
+    process.stdout.write("\nstart delay: " + startDifference + " ms\n\n");
+    process.stdout.write("time (min:sec):\tduration (ms):\n");
+    for (const i in args[0])
         process.stdout.write(args[0][i] + "\t" + args[1][i] + "\n");
-    }
-    /*args[0].forEach(e => {
-        process.stdout.write(e + '\n');
-    });
-    process.stdout.write('\n');
-    args[1].forEach(e => {
-        process.stdout.write(e + '\n');
-    });*/
 }
