@@ -1,6 +1,9 @@
 const fs = require('fs');
 const xml2js = require('xml2js');
 const cmd = require('node-cmd');
+const vis = require('vis');
+const http = require('http');
+const opn = require('opn');
 const ratio = 0.002;//0.001999999841569535020321384257825129452549863988069544668958641201035281850236222338457267539783701251106630;
 
 let parser = new xml2js.Parser(), file = process.argv[2], newFile, encoding = process.platform === "win32" ? "utf-16le" : "utf8", retry = true;
@@ -89,8 +92,28 @@ function msToTime(duration) {
 }
 
 function printForTables(args, startDifference) {
-    process.stdout.write("\nstart delay: " + startDifference + " ms\n\n");
-    process.stdout.write("time (min:sec):\tduration (ms):\n");
-    for (const i in args[0])
-        process.stdout.write(args[0][i] + "\t" + args[1][i] + "\n");
+    if (process.argv.includes("-v", 2)) {
+        http.createServer(function (req, res) {
+            fs.readFile('./visualization.html', 'utf8', (err, html) => {
+                if (err) {
+                    res.end(err);
+                }
+                else {
+                    res.writeHead(200, {
+                        'Content-Type': 'text/html',
+                        'Content-Length': html.length,
+                        'Expires': new Date().toUTCString()
+                    });
+                    res.end(html);
+                }
+            });
+        }).listen(8080);
+        opn('http://localhost:8080', {app: 'firefox'});
+    }
+    else {
+        process.stdout.write("\nstart delay: " + startDifference + " ms\n\n");
+        process.stdout.write("time (min:sec):\tduration (ms):\n");
+        for (const i in args[0])
+            process.stdout.write(args[0][i] + "\t" + args[1][i] + "\n");
+    }
 }
