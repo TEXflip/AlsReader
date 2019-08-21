@@ -64,3 +64,4 @@ typings/
 *.als
 *.xml
 !example.xml
+.vs
