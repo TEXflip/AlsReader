@@ -1,0 +1,26 @@
+{
+	"name": "alsreader",
+	"description": "",
+	"version": "1.0.0",
+	"main": "abletonAlsReader.js",
+	"scripts": {
+		"test": "node abletonAlsReader.js example.xml"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ashleygwilliams/my_package.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ashleygwilliams/my_package/issues"
+	},
+	"homepage": "https://github.com/ashleygwilliams/my_package",
+	"dependencies": {
+		"node-cmd": "^3.0.0",
+		"opn": "^6.0.0",
+		"vis": "^4.21.0-EOL",
+		"xml2js": "^0.4.19"
+	}
+}
